@@ -37,21 +37,6 @@ export default class Main extends Component {
     e.preventDefault();
     this.setState({ loading: true });
     const { newRepo, repositories } = this.state;
-    const response = await api
-      .get(`/repos/${newRepo}`)
-      .catch(error => console.log(`erro ${error}`));
-
-    if (!response) {
-      this.setState({
-        errorMessage: 'Repositorio não encontrado',
-        loading: false,
-      });
-      return;
-    }
-
-    const data = {
-      name: response.data.full_name,
-    };
 
     const findRepository = repositories.some(
       repo => repo.name.toLowerCase() === newRepo.toLowerCase()
@@ -62,12 +47,25 @@ export default class Main extends Component {
         errorMessage: 'O repositório já está na lista',
         loading: false,
       });
-    } else {
+      return;
+    }
+
+    try {
+      const response = await api.get(`/repos/${newRepo}`);
+      const data = {
+        name: response.data.full_name,
+      };
+
       this.setState({
         repositories: [...repositories, data],
         newRepo: '',
         loading: false,
         errorMessage: '',
+      });
+    } catch (error) {
+      this.setState({
+        errorMessage: 'Repositorio não encontrado',
+        loading: false,
       });
     }
   };
