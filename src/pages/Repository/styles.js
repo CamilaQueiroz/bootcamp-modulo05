@@ -94,3 +94,29 @@ export const IssueList = styled.ul`
     }
   }
 `;
+
+export const Pagination = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+
+  button {
+    padding: 8px 13px;
+    margin: 10px 5px;
+    color: #7159c1;
+    background: #fff;
+    border: 1px solid #7159c1;
+    transition: all 0.2s;
+    &:hover {
+      color: #fff;
+      background: #7159c1;
+    }
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+`;
